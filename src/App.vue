@@ -1,12 +1,28 @@
 <script setup lang="ts">
+import { ref, reactive, computed } from 'vue';
+
+let product = reactive({
+  image: true,
+})
+
+const icon = ref('/icon360.svg');
+
+function changeState() {
+  product.image = !product.image;
+  icon.value = icon.value === '/icon360.svg' ? '/iconClose.svg' : '/icon360.svg';
+}
+
+const productImage = computed(() => {
+  return product.image ? '/sofa.svg' : '/sofa.gif'
+})
 </script>
 
 <template>
   <section id="products-page">
     <div id="left-side">
       <div class="image">
-        <img src="/sofa.svg" alt="imagem de um sofá rosa">
-        <img src="/icon360.svg" alt="imagem de um icone escrito 360">
+        <img :src="productImage" alt="imagem de um sofá rosa">
+        <img :src="icon" alt="imagem de um icone escrito 360" @click="changeState">
       </div>
     </div>
     <div id="right-side">
@@ -42,10 +58,15 @@
   position: relative;
 }
 
+#left-side .image img:first-child {
+  width: 449px;
+}
+
 #left-side .image img:last-child {
   position: absolute;
   right: 60px;
   top: 0;
+  cursor: pointer;
 }
 
 #right-side {
@@ -83,5 +104,7 @@
 
   margin-top: 20px;
   padding: 8px 16px;
+
+  cursor: pointer;
 }
 </style>
